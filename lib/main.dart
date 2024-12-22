@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Screens/first_page.dart';
-import 'package:recipe_app/Screens/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,9 +13,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home:FirstPage(),
     );
   }
