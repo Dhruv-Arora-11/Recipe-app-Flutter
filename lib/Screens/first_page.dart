@@ -21,10 +21,10 @@ class FirstPage extends StatelessWidget {
                   child: Text(
                   'Hello,',
                   style: TextStyle(
-                    fontSize: 30, // Adjust the font size based on the image
-                    fontWeight: FontWeight.w500, // Medium font weight
-                    color: Colors.white, // White text color
-                    fontFamily: 'Roboto', // Ensure this matches the font in your design
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontFamily: 'Roboto', 
                   ),
                                 ),
                 ),
