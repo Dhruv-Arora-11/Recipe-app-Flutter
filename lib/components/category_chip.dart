@@ -4,7 +4,7 @@ class CategoryChip extends StatelessWidget {
   final String label;
   final bool isSelected;
   Color lightGold = Color(0xFFE1C16E);
-  CategoryChip({required this.label, this.isSelected = false});
+  CategoryChip({super.key, required this.label, this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {
