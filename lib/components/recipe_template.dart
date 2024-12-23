@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RecipeTemplate extends StatelessWidget {
   RecipeTemplate({super.key});
-  Color tempColor = Color(0xFF171D2B);
+  final Color tempColor = Color(0xFF171D2B);
 
   @override
   Widget build(BuildContext context) {

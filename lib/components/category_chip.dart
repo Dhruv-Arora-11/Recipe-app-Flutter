@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CategoryChip extends StatelessWidget {
   final String label;
   final bool isSelected;
-  Color lightGold = Color(0xFFE1C16E);
+  final Color lightGold = Color(0xFFE1C16E);
   CategoryChip({super.key, required this.label, this.isSelected = false});
 
   @override
