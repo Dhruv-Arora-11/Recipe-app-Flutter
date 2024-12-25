@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Screens/first_page.dart';
+import 'package:recipe_app/Screens/search_page.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:recipe_app/Screens/search_page.dart';
 import 'package:recipe_app/components/category_chip.dart';
 import 'package:recipe_app/components/recipe_template.dart';
 
@@ -26,6 +27,18 @@ class _FirstPageState extends State<FirstPage> {
   void _onNavBarTap(int index) {
     setState(() {
       _selectedIndex = index;
+      switch(_selectedIndex){
+        case 0:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
+          break;
+        case 1:
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+      }
     });
   }
 
@@ -126,8 +139,10 @@ class _FirstPageState extends State<FirstPage> {
           iconSize: 19,
           color: Colors.white,
           activeColor: Colors.orange,
-          tabBackgroundColor: Colors.grey.shade800,
-          gap: 1,
+          tabActiveBorder: Border.all(color: Colors.orange),
+          tabBackgroundColor: Colors.grey.shade900,
+          gap: 12,
+          padding: EdgeInsets.all(15),
           selectedIndex: _selectedIndex,
           onTabChange: _onNavBarTap,
           tabs: [
