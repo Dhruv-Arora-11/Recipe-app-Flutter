@@ -4,8 +4,6 @@ import 'package:recipe_app/Screens/homepage.dart';
 import 'package:recipe_app/Screens/profile.dart';
 import 'package:recipe_app/Screens/search_page.dart';
 import 'package:recipe_app/Screens/starred.dart';
-import 'package:recipe_app/components/category_chip.dart';
-import 'package:recipe_app/components/recipe_template.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});

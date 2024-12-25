@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:recipe_app/Screens/first_page.dart';
 
 class SearchPage extends StatefulWidget {
+  static var user_message;
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
   final Color backgroundColor = Color(0xFF11151E); 
- // Background color
+  static final TextEditingController user_message = new TextEditingController();
   final Color searchBarColor =Color(0xFF171D2B); 
   final Color customColor = Color(0xFF11151E);
 
@@ -28,14 +28,15 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                  Padding(
                    padding: const EdgeInsets.only(left: 8.0),
-                   child: Text(
-                                 "What are you looking for ?",
-                                 style: TextStyle(
-                                   color: Colors.white,
-                                   fontSize: 35,
-                                   fontWeight: FontWeight.bold,
-                                 ),
-                               ),
+                   child: 
+                   Text(
+                    "What are you looking for ?",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                  ),
                 Padding(
                   padding: const EdgeInsets.only(left: 0.0,top:10),
