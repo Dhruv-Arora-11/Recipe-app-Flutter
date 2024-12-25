@@ -13,27 +13,6 @@ class _SearchPageState extends State<SearchPage> {
   final Color searchBarColor =Color(0xFF171D2B); 
   final Color customColor = Color(0xFF11151E);
 
- // Matches the tile color
-  int _selectedIndex = 1;
-
-  void _onNavBarTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-      switch(_selectedIndex){
-        case 0:
-          Navigator.push(context, MaterialPageRoute(builder: (context) => FirstPage()));
-          break;
-        case 1:
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
-          break;
-        case 2:
-          break;
-        case 3:
-          break;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,42 +72,6 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
           ),
-        ),
-      ),
-      bottomNavigationBar: 
-      Container(
-        color: Colors.grey.shade900,
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-        child: GNav(   
-          haptic: true,
-          backgroundColor: customColor,
-          iconSize: 19,
-          color: Colors.white,
-          activeColor: Colors.orange,
-          tabActiveBorder: Border.all(color: Colors.orange),
-          tabBackgroundColor: Colors.grey.shade900,
-          gap: 12,
-          padding: EdgeInsets.all(15),
-          selectedIndex: _selectedIndex,
-          onTabChange: _onNavBarTap,
-          tabs: [
-            GButton(
-              icon: Icons.home,
-              text: "Home",
-            ),
-            GButton(
-              icon: Icons.search,
-              text: "Search",
-            ),
-            GButton(
-              icon: Icons.star_border,
-              text: "Starred",
-            ),
-            GButton(
-              icon: Icons.person,
-              text: "Profile",
-            ),
-          ],
         ),
       ),
     );
