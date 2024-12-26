@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:recipe_app/Screens/first_page.dart';
+import 'package:recipe_app/Screens/GetStartedPage.dart';
 import 'package:recipe_app/Screens/search_page.dart';
 import 'Integrating_LLM/constants.dart';
 
@@ -23,8 +23,8 @@ The Cooking assistant in your hands. What I can help you today''')]),
 about Cooking and how to use our app''')]),
   ]);
 
-// final message = "$user_mess";
-final message = "how to make a chocolate cake ?";
+final message = "$user_mess";
+// final message = "how to make a chocolate cake ?";
 
 var response = await chat.sendMessage(Content.text(message));
 print(response.text);
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:FirstPage(),
+      home:GetStartedPage(),
     );
   }
 }

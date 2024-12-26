@@ -9,7 +9,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final Color backgroundColor = Color(0xFF11151E); 
-  static final TextEditingController user_message = new TextEditingController();
+  // ignore:  unused_field, non_constant_identifier_names
+  static final TextEditingController user_message = TextEditingController();
   final Color searchBarColor =Color(0xFF171D2B); 
   final Color customColor = Color(0xFF11151E);
 

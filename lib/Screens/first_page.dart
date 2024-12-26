@@ -3,7 +3,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:recipe_app/Screens/homepage.dart';
 import 'package:recipe_app/Screens/profile.dart';
 import 'package:recipe_app/Screens/search_page.dart';
-import 'package:recipe_app/Screens/starred.dart';
+import 'package:recipe_app/Screens/chat_page.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -33,7 +33,7 @@ class _FirstPageState extends State<FirstPage> {
         children: [
           HomePage(),
           SearchPage(),
-          Starred(),
+          chat_page(),
           profile()
         ],
       ),
@@ -64,8 +64,8 @@ class _FirstPageState extends State<FirstPage> {
               text: "Search",
             ),
             GButton(
-              icon: Icons.star_border,
-              text: "Starred",
+              icon: Icons.chat,
+              text: "Chat",
             ),
             GButton(
               icon: Icons.person,
