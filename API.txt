@@ -1,0 +1,6 @@
+Requirements:
+
+
+Number of requests per day , Comprehensive data base			==========> TheMealDB with unlimited requests
+categories
+Nutritional data      ===========>    Edamam Recipe Search API    ( We can use different accounts with this API ) (10K requests per month)

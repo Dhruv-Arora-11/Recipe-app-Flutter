@@ -3,7 +3,7 @@ import 'package:recipe_app/components/category_chip.dart';
 import 'package:recipe_app/components/recipe_template.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

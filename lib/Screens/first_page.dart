@@ -13,7 +13,7 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  final Color customColor = Color(0xFF11151E);
+  final Color customColor = Color(0xFF0B1520);
 
   int _selectedIndex = 0;
 
@@ -25,53 +25,55 @@ class _FirstPageState extends State<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
+        
       
-
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: [
-          HomePage(),
-          SearchPage(),
-          chat_page(),
-          profile()
-        ],
-      ),
-
-      bottomNavigationBar: 
-      Container(
-        color: Colors.grey.shade900,
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-        child: GNav(   
-          haptic: true,
-          backgroundColor: customColor,
-          iconSize: 19,
-          color: Colors.white,
-          activeColor: Colors.orange,
-          tabActiveBorder: Border.all(color: Colors.orange),
-          tabBackgroundColor: Colors.grey.shade900,
-          gap: 12,
-          padding: EdgeInsets.all(15),
-          selectedIndex: _selectedIndex,
-          onTabChange: _onNavBarTap,
-          tabs: [
-            GButton(
-              icon: Icons.home,
-              text: "Home",
-            ),
-            GButton(
-              icon: Icons.search,
-              text: "Search",
-            ),
-            GButton(
-              icon: Icons.chat,
-              text: "Chat",
-            ),
-            GButton(
-              icon: Icons.person,
-              text: "Profile",
-            ),
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: [
+            HomePage(),
+            SearchPage(),
+            chat_page(),
+            profile()
           ],
+        ),
+      
+        bottomNavigationBar: 
+        Container(
+          color: Colors.grey.shade900,
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+          child: GNav(   
+            haptic: true,
+            backgroundColor: customColor,
+            iconSize: 19,
+            color: Colors.white,
+            activeColor: Colors.orange,
+            tabActiveBorder: Border.all(color: Colors.orange),
+            tabBackgroundColor: Colors.grey.shade900,
+            gap: 12,
+            padding: EdgeInsets.all(15),
+            selectedIndex: _selectedIndex,
+            onTabChange: _onNavBarTap,
+            tabs: [
+              GButton(
+                icon: Icons.home,
+                text: "Home",
+              ),
+              GButton(
+                icon: Icons.search,
+                text: "Search",
+              ),
+              GButton(
+                icon: Icons.chat,
+                text: "Chat",
+              ),
+              GButton(
+                icon: Icons.person,
+                text: "Profile",
+              ),
+            ],
+          ),
         ),
       ),
     );

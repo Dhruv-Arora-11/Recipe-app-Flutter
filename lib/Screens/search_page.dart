@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class SearchPage extends StatefulWidget {
   static var user_message;
 
+  const SearchPage({super.key});
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }

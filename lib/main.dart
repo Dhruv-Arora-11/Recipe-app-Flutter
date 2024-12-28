@@ -4,7 +4,7 @@ import 'package:recipe_app/Screens/GetStartedPage.dart';
 import 'package:recipe_app/Screens/search_page.dart';
 import 'Integrating_LLM/constants.dart';
 
-constant c = new constant();
+constant c = constant();
 String user_mess = SearchPage.user_message.toString().trim();
 
 void main() async{
@@ -14,7 +14,7 @@ void main() async{
       systemInstruction: Content.system(constant.prompt_withUserInfo)
   );
 
-final chat = await model.startChat(history: [
+final chat = model.startChat(history: [
     Content.text("hello"),
     Content.model([TextPart('''Hello, I'm Prakash ka Baap, 
 The Cooking assistant in your hands. What I can help you today''')]),
@@ -23,7 +23,7 @@ The Cooking assistant in your hands. What I can help you today''')]),
 about Cooking and how to use our app''')]),
   ]);
 
-final message = "$user_mess";
+final message = user_mess;
 // final message = "how to make a chocolate cake ?";
 
 var response = await chat.sendMessage(Content.text(message));

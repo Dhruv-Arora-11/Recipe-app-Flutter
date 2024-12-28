@@ -6,7 +6,7 @@ class profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         height: 50,
         width: 50,
         child: Text(
