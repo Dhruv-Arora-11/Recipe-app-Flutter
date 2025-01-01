@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_app/mealDB%20api/first_letter.dart';
 
 class SearchPage extends StatefulWidget {
   static var user_message;
@@ -15,6 +16,8 @@ class _SearchPageState extends State<SearchPage> {
   static final TextEditingController user_message = TextEditingController();
   final Color searchBarColor =Color(0xFF171D2B); 
   final Color customColor = Color(0xFF11151E);
+  bool hasLetter = false;
+  List<String> Meals = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +49,37 @@ class _SearchPageState extends State<SearchPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: searchBarColor,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(18),
                     ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Type something...",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        prefixIcon: Icon(Icons.search, color: Colors.white),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(vertical: 15),
+                    child: GestureDetector(
+                      child: TextField(
+                        onChanged: (value) async{
+                          if(value.trim().isEmpty){
+                            Meals = [];
+                          }else{
+                            if(!hasLetter){
+                              String letter = value.trim()[0];
+                              await Future.delayed(Duration(seconds: 2));
+                              List<String> Meals = await API_fetch(letter: letter).fetchData();
+                              for(int i = 0 ;i<Meals.length ; i++){
+                                print(Meals[i]);
+                              }
+                              hasLetter = true;
+                            }
+                            else{
+                              print("The API fetching is already completed");
+                            }
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Type something...",
+                          hintStyle: TextStyle(color: Colors.white54),
+                          prefixIcon: Icon(Icons.search, color: Colors.white,size: 30),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(vertical: 15),
+                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),

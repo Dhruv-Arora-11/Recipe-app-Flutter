@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/components/category_chip.dart';
 import 'package:recipe_app/components/recipe_template.dart';
+import 'package:recipe_app/mealDB%20api/category_listing.dart';
+import 'package:recipe_app/mealDB%20api/recipeCallForParticularCategory.dart/all_category.dart';
+import 'package:recipe_app/mealDB%20api/recipeCallForParticularCategory.dart/any_other_category.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,102 +13,184 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   final Color customColor = Color(0xFF11151E);
-
+  ListCategory listCategory = new ListCategory();
+  AllCategory all_category_call = new AllCategory();
+  // List<String> Recipe_for_category = [];
+  String selected_category = "All";
   final List category_name = [
-    "🔥 Popular", "🥗 Salad", "🍳 Breakfast", "🍔 Burgers", "🍕 Pizza",
-  ];
+    "🌐 All",
+  "🍳 Breakfast",
+  "🍗 Chicken",
+  "🍰 Dessert",
+  "🐐 Goat",
+  "🥩 Lamb",
+  "🧩 Miscellaneous",
+  "🍝 Pasta",
+  "🐖 Pork",
+  "🐟 Seafood",
+  "🍟 Side",
+  "🥗 Starter",
+  "🌱 Vegan",
+  "🥦 Vegetarian",
+];
 
-  final List category_select = [
-    true, false, false, false, false
-  ];
+    List<List<String>> Dishes = [];
 
-    void categoryTap(int index) {
-    setState(() {
-      for (int i = 0; i < category_select.length; i++) {
-        category_select[i] = false;
-      }
-      category_select[index] = true;
-    });
+    List<String> indianDishes_img = [];
+    List<String> chickenDishes_img = [];
+
+    List<String> indianDishes_name = [];
+    List<String> chickenDishes_name = [];
+
+
+  Future<void> category_call_dishes(selected_category)async{
+    AnyOtherCategory otherCategory = new AnyOtherCategory(selected_category: selected_category);
+    if(selected_category == "All"){
+       Dishes = await all_category_call.fetchData();
+       print("inside category_call_dishes");
+       print(Dishes);
+       try {
+        indianDishes_name = Dishes[0];
+        indianDishes_img = Dishes[1];
+        chickenDishes_img = Dishes[3];
+        chickenDishes_name = Dishes[2];
+       } catch (e) {
+         print(e);
+       }
+    }else{
+      print("this is the else of this ");
+      Dishes = await otherCategory.fetchData();
+      indianDishes_name = Dishes[0];
+      indianDishes_img = Dishes[1];
+
+    }
+  }
+
+  List<String> category = [];
+
+  void fetch_category() async{
+    for(int i = 0 ; i < category_name.length ; i++){
+      category_select.add(false);
+    }
+    await category_call_dishes(selected_category);
+    setState(() {});
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: customColor,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Hello,',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              fontFamily: 'Roboto',
-                            ),
+  void initState() {
+    fetch_category();
+    super.initState();
+  }
+
+  final List category_select = [];
+void categoryTap(int index) async {
+  setState(() {
+    for (int i = 0; i < category_select.length; i++) {
+      category_select[i] = false;
+    }
+    category_select[index] = true;
+  });
+
+  selected_category = category_name[index];
+  selected_category = selected_category.substring(2);
+
+  // Clear existing data
+  setState(() {
+    indianDishes_name = [];
+    indianDishes_img = [];
+  });
+
+  // Fetch data for the selected category
+  await category_call_dishes(selected_category);
+
+    print('Indian Dishes: $indianDishes_name');
+  print('Indian Dishes Images: $indianDishes_img');
+
+  // Update the UI with the new data
+  setState(() {});
+}
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: customColor,
+    body: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Hello,',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontFamily: 'Roboto',
                           ),
-                          Text(
-                            'Kristin 👋',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                              fontFamily: 'Roboto',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage("assets/images/obito.jpg"),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 40,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: category_name.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          categoryTap(index);
-                        },
-                        child: CategoryChip(
-                          label: category_name[index],
-                          isSelected: category_select[index],
                         ),
-                      );
-                    },
+                        Text(
+                          'Kristin 👋',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage("assets/images/obito.jpg"),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              SizedBox(
+                height: 40,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: category_name.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        categoryTap(index);
+                      },
+                      child: CategoryChip(
+                        label: category_name[index],
+                        isSelected: category_select[index],
+                      ),
+                    );
+                  },
                 ),
-        
-                SizedBox(height: 30,),
-        
-        
-                RecipeTemplate(),
-                RecipeTemplate(),
-                RecipeTemplate(),
-              ],
-            ),
+              ),
+              SizedBox(height: 30),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: indianDishes_name.length,
+                itemBuilder: (context, index) {
+                  return RecipeTemplate(
+                    dishName: indianDishes_name[index],
+                    imageUrl: indianDishes_img[index],
+                  );
+                },
+              ),
+            ],
           ),
         ),
-      ),);
-  }
+      ),
+    ),
+  );
+}
 }

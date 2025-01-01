@@ -23,11 +23,11 @@ The Cooking assistant in your hands. What I can help you today''')]),
 about Cooking and how to use our app''')]),
   ]);
 
-final message = user_mess;
-// final message = "how to make a chocolate cake ?";
+// final message = user_mess;
+final message = "how to make a aaloo paratha ?";
 
-var response = await chat.sendMessage(Content.text(message));
-print(response.text);
+// var response = await chat.sendMessage(Content.text(message));
+// print(response.text);
 
   runApp(const MyApp());
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RecipeTemplate extends StatelessWidget {
-  RecipeTemplate({super.key});
+  final String imageUrl;
+  final String dishName;
+
+  RecipeTemplate({super.key, required this.imageUrl, required this.dishName});
+
   final Color tempColor = Color(0xFF171D2B);
 
   @override
@@ -14,18 +18,35 @@ class RecipeTemplate extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: tempColor,
         ),
-        child: Stack(
+        child: Row(
           children: [
-            Positioned(
-              top: 20,
-              left: 20, 
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10), 
-                child: Container(
-                  width: 150, 
-                  height: 150, 
-                  color: Colors.white,
-                  //add the image here
+            // Image Section
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                width: 150,
+                height: 150,
+                margin: const EdgeInsets.all(10),
+                color: Colors.white,
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            // Dish Name Section
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  dishName,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),

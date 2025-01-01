@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:recipe_app/Screens/homepage.dart';
-import 'package:recipe_app/Screens/profile.dart';
+import 'package:recipe_app/Screens/profile/profile.dart';
 import 'package:recipe_app/Screens/search_page.dart';
 import 'package:recipe_app/Screens/chat_page.dart';
 
