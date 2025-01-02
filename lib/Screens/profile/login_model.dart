@@ -10,6 +10,8 @@ class LoginModal extends StatelessWidget {
   final Color customColor = Color(0xFF0B1520);
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  LoginModal({super.key});
+
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     try {
       final GoogleSignInAccount? account = await _googleSignIn.signIn();

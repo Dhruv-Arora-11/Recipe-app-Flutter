@@ -6,23 +6,23 @@ class AllCategory {
 
     List<List<String>> dishList = [];
     
-    List raw_indianDish_list = [];
-    List raw_chickenDish_list = [];
+    List rawIndiandishList = [];
+    List rawChickendishList = [];
 
-    List<String> indianDishes_img = [];
-    List<String> chickenDishes_img = [];
+    List<String> indiandishesImg = [];
+    List<String> chickendishesImg = [];
 
-    List<String> indianDishes_name = [];
-    List<String> chickenDishes_name = [];
+    List<String> indiandishesName = [];
+    List<String> chickendishesName = [];
     
     try {
       
-      String final_url = "https://www.themealdb.com/api/json/v1/1/filter.php?a=Indian" ;
-      String final_url2 = "https://www.themealdb.com/api/json/v1/1/filter.php?c=chicken";
+      String finalUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a=Indian" ;
+      String finalUrl2 = "https://www.themealdb.com/api/json/v1/1/filter.php?c=chicken";
       
       
-      final response = await http.get(Uri.parse(final_url));
-      final response2 = await http.get(Uri.parse(final_url2));
+      final response = await http.get(Uri.parse(finalUrl));
+      final response2 = await http.get(Uri.parse(finalUrl2));
       
       
       if (response.statusCode == 200) {
@@ -32,26 +32,26 @@ class AllCategory {
 
 
 
-        raw_indianDish_list = data["meals"];
-        for(int i = 0 ; i < raw_indianDish_list.length ; i++){
-            indianDishes_name.add(raw_indianDish_list[i]["strMeal"]);
+        rawIndiandishList = data["meals"];
+        for(int i = 0 ; i < rawIndiandishList.length ; i++){
+            indiandishesName.add(rawIndiandishList[i]["strMeal"]);
           }
-        for(int i = 0 ; i < raw_indianDish_list.length ; i++){
-            indianDishes_img.add(raw_indianDish_list[i]["strMealThumb"]);
-          }
-
-        raw_chickenDish_list = data2["meals"];
-        for(int i = 0 ; i < raw_chickenDish_list.length ; i++){
-            chickenDishes_name.add(raw_chickenDish_list[i]["strMeal"]);
-          }
-        for(int i = 0 ; i < raw_chickenDish_list.length ; i++){
-            chickenDishes_img.add(raw_chickenDish_list[i]["strMealThumb"]);
+        for(int i = 0 ; i < rawIndiandishList.length ; i++){
+            indiandishesImg.add(rawIndiandishList[i]["strMealThumb"]);
           }
 
-        dishList.add(indianDishes_name);
-        dishList.add(indianDishes_img);
-        dishList.add(chickenDishes_name);
-        dishList.add(chickenDishes_img);
+        rawChickendishList = data2["meals"];
+        for(int i = 0 ; i < rawChickendishList.length ; i++){
+            chickendishesName.add(rawChickendishList[i]["strMeal"]);
+          }
+        for(int i = 0 ; i < rawChickendishList.length ; i++){
+            chickendishesImg.add(rawChickendishList[i]["strMealThumb"]);
+          }
+
+        dishList.add(indiandishesName);
+        dishList.add(indiandishesImg);
+        dishList.add(chickendishesName);
+        dishList.add(chickendishesImg);
 
         return dishList;
       } else {

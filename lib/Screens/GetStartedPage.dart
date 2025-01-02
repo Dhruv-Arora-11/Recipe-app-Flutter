@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Screens/first_page.dart';
+import 'loadingScreen.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -9,17 +9,14 @@ class GetStartedPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/food 2.jpg'), // Replace with your asset image path
-                fit: BoxFit.cover, // Ensures the image covers the entire screen
+                image: AssetImage('assets/images/food 2.jpg'),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-
-          // Foreground content at the center-bottom
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -48,17 +45,24 @@ class GetStartedPage extends StatelessWidget {
                   const SizedBox(height: 40),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow, // Button color
+                      backgroundColor: Colors.yellow,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 50, vertical: 15), // Adjust padding
+                          horizontal: 50, vertical: 15),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => FirstPage()),
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => const LoadingScreen(),
+                          transitionsBuilder: (_, animation, __, child) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            );
+                          },
+                        ),
                       );
                     },
                     child: const Text(

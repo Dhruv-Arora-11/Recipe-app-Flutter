@@ -39,6 +39,9 @@ dependencies:
   google_generative_ai: ^0.4.6
   http: ^1.2.2
   flutter_svg: ^2.0.16
+  rive: ^0.13.20
+  animated_splash_screen: ^1.3.0
+  page_transition: ^2.0.9
 
 dev_dependencies:
   flutter_test:

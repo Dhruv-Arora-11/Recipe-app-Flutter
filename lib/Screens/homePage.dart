@@ -15,8 +15,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final Color customColor = Color(0xFF11151E);
-  ListCategory listCategory = new ListCategory();
-  AllCategory all_category_call = new AllCategory();
+  ListCategory listCategory = ListCategory();
+  AllCategory all_category_call = AllCategory();
   // List<String> Recipe_for_category = [];
   String selected_category = "All";
   final List category_name = [
@@ -45,12 +45,10 @@ class _HomePageState extends State<HomePage> {
     List<String> chickenDishes_name = [];
 
 
-  Future<void> category_call_dishes(selected_category)async{
-    AnyOtherCategory otherCategory = new AnyOtherCategory(selected_category: selected_category);
-    if(selected_category == "All"){
+  Future<void> category_call_dishes(selectedCategory)async{
+    AnyOtherCategory otherCategory = AnyOtherCategory(selected_category: selectedCategory);
+    if(selectedCategory == "All"){
        Dishes = await all_category_call.fetchData();
-       print("inside category_call_dishes");
-       print(Dishes);
        try {
         indianDishes_name = Dishes[0];
         indianDishes_img = Dishes[1];
@@ -60,11 +58,13 @@ class _HomePageState extends State<HomePage> {
          print(e);
        }
     }else{
+      setState(()async {
       print("this is the else of this ");
       Dishes = await otherCategory.fetchData();
       indianDishes_name = Dishes[0];
       indianDishes_img = Dishes[1];
 
+      });
     }
   }
 

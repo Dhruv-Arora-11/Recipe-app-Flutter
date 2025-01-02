@@ -11,21 +11,21 @@ class AnyOtherCategory {
   });
 
   Future<List<List<String>>> fetchData() async {
-    List raw_Dish_list = [];
+    List rawDishList = [];
     List<String> Dishes = [];
-    List<String> img_url = [];
+    List<String> imgUrl = [];
     try {
-      String final_url = "https://www.themealdb.com/api/json/v1/1/filter.php?c=$selected_category" ;
-      final response = await http.get(Uri.parse(final_url));
+      String finalUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?c=$selected_category" ;
+      final response = await http.get(Uri.parse(finalUrl));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        raw_Dish_list = data["meals"];
-        for(int i = 0 ; i < raw_Dish_list.length ; i++){
-            Dishes.add(raw_Dish_list[i]["strMeal"]);
-            img_url.add(raw_Dish_list[i]["strMealThumb"]);
+        rawDishList = data["meals"];
+        for(int i = 0 ; i < rawDishList.length ; i++){
+            Dishes.add(rawDishList[i]["strMeal"]);
+            imgUrl.add(rawDishList[i]["strMealThumb"]);
           }
         dishList.add(Dishes);
-        dishList.add(img_url);
+        dishList.add(imgUrl);
         print(dishList);
         return dishList;
       } else {

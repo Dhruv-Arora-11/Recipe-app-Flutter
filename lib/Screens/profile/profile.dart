@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Screens/profile/alreadyLogin.dart';
-import 'package:recipe_app/Screens/profile/login_model.dart';
 import 'package:recipe_app/Screens/profile/notLogin.dart';
 
 // ignore: must_be_immutable

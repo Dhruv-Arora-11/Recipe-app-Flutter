@@ -11,8 +11,8 @@ class API_fetch{
 
   Future<List<String>> fetchData() async {
     try {
-      String final_url = "https://www.themealdb.com/api/json/v1/1/search.php?f=$letter";
-      final response = await http.get(Uri.parse(final_url));
+      String finalUrl = "https://www.themealdb.com/api/json/v1/1/search.php?f=$letter";
+      final response = await http.get(Uri.parse(finalUrl));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         meals = data['meals'];

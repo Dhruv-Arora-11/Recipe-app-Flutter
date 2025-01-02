@@ -11,7 +11,7 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
 
-  CustomTextField({
+  CustomTextField({super.key, 
     required this.title,
     required this.hint,
     required this.controller,
@@ -32,7 +32,7 @@ class CustomTextField extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 8),
             child: Text(
-              '$title',
+              title,
               style: TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
@@ -47,7 +47,7 @@ class CustomTextField extends StatelessWidget {
               cursorColor: customColor,
               obscureText: obsecureText,
               decoration: InputDecoration(
-                hintText: '$hint',
+                hintText: hint,
                 hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
                 contentPadding: EdgeInsets.only(left: 16),
                 border: InputBorder.none,

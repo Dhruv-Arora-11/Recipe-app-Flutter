@@ -10,7 +10,7 @@ class ProfilePage extends StatelessWidget {
   final String subType;
   final String subTime;
 
-  ProfilePage({
+  ProfilePage({super.key, 
     required this.email,
     required this.fullName,
     required this.subType,
@@ -99,7 +99,7 @@ class ProfileInfoRow extends StatelessWidget {
   final String label;
   final String value;
 
-  ProfileInfoRow({
+  const ProfileInfoRow({super.key, 
     required this.label,
     required this.value,
   });

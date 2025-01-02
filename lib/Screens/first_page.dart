@@ -27,14 +27,12 @@ class _FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        
-      
         body: IndexedStack(
           index: _selectedIndex,
           children: [
             HomePage(),
             SearchPage(),
-            chat_page(),
+            ChatPage(),
             profile()
           ],
         ),
@@ -51,8 +49,8 @@ class _FirstPageState extends State<FirstPage> {
             activeColor: Colors.orange,
             tabActiveBorder: Border.all(color: Colors.orange),
             tabBackgroundColor: Colors.grey.shade900,
-            gap: 12,
-            padding: EdgeInsets.all(15),
+            gap: 10,
+            padding: EdgeInsets.all(10),
             selectedIndex: _selectedIndex,
             onTabChange: _onNavBarTap,
             tabs: [
@@ -77,5 +75,7 @@ class _FirstPageState extends State<FirstPage> {
         ),
       ),
     );
+    
   }
+  
 }
