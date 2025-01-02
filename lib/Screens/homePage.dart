@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/components/category_chip.dart';
 import 'package:recipe_app/components/recipe_template.dart';
@@ -21,9 +22,11 @@ class _HomePageState extends State<HomePage> {
   String selected_category = "All";
   final List category_name = [
     "🌐 All",
-  "🍳 Breakfast",
+  "🥦 Vegetarian",
   "🍗 Chicken",
+  "🌱 Vegan",
   "🍰 Dessert",
+  "🍳 Breakfast",
   "🐐 Goat",
   "🥩 Lamb",
   "🧩 Miscellaneous",
@@ -32,8 +35,6 @@ class _HomePageState extends State<HomePage> {
   "🐟 Seafood",
   "🍟 Side",
   "🥗 Starter",
-  "🌱 Vegan",
-  "🥦 Vegetarian",
 ];
 
     List<List<String>> Dishes = [];
@@ -46,8 +47,10 @@ class _HomePageState extends State<HomePage> {
 
 
   Future<void> category_call_dishes(selectedCategory)async{
-    AnyOtherCategory otherCategory = AnyOtherCategory(selected_category: selectedCategory);
-    if(selectedCategory == "All"){
+    print(selectedCategory);
+    AnyOtherCategory otherCategory = AnyOtherCategory(selected_category: selectedCategory.substring(1));
+    if(selectedCategory.toString().trim() == "All"){
+      print("I am in the all");
        Dishes = await all_category_call.fetchData();
        try {
         indianDishes_name = Dishes[0];
@@ -58,14 +61,20 @@ class _HomePageState extends State<HomePage> {
          print(e);
        }
     }else{
-      setState(()async {
-      print("this is the else of this ");
-      Dishes = await otherCategory.fetchData();
-      indianDishes_name = Dishes[0];
-      indianDishes_img = Dishes[1];
-
+      setState(() {
+        Fun_for_otherCategory(otherCategory);
+        print("I am in the set state");
       });
     }
+  }
+
+  void Fun_for_otherCategory(otherCategory)async{
+    print("this is the else of this ");
+    Dishes = await otherCategory.fetchData();
+    print("fetchData is compeleted");
+    indianDishes_name = Dishes[0];
+    indianDishes_img = Dishes[1];
+    setState(() {});
   }
 
   List<String> category = [];

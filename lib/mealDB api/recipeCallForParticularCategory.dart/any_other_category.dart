@@ -11,30 +11,40 @@ class AnyOtherCategory {
   });
 
   Future<List<List<String>>> fetchData() async {
-    List rawDishList = [];
-    List<String> Dishes = [];
-    List<String> imgUrl = [];
-    try {
-      String finalUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?c=$selected_category" ;
-      final response = await http.get(Uri.parse(finalUrl));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        rawDishList = data["meals"];
-        for(int i = 0 ; i < rawDishList.length ; i++){
-            Dishes.add(rawDishList[i]["strMeal"]);
-            imgUrl.add(rawDishList[i]["strMealThumb"]);
-          }
-        dishList.add(Dishes);
-        dishList.add(imgUrl);
-        print(dishList);
-        return dishList;
-      } else {
-        print('Error: ${response.statusCode}');
-        return dishList;
+  List<String> Dishes = [];
+  List<String> imgUrl = [];
+  try {
+    print("I got in try block");
+    String finalUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?c=$selected_category";
+    final response = await http.get(Uri.parse(finalUrl));
+    print("this is teh respoonse");
+    print(response);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print("I am printing the data");
+      print(data);
+      print("raw dish list is about to fetch ");
+      final rawDishList = data["meals"];
+      print("I have fetched the raw dish list and this is below");
+      print(rawDishList);
+      if (rawDishList == null) {
+        print("No dishes found for category: $selected_category");
+        return [];
       }
-    } catch (e) {
-      print('Error: $e');
-      return dishList;
+      for (var dish in rawDishList) {
+        Dishes.add(dish["strMeal"]);
+        imgUrl.add(dish["strMealThumb"]);
+      }
+      return [Dishes, imgUrl];
+    } else {
+      print('Error: ${response.statusCode}');
+      return [];
     }
+  } catch (e) {
+    print('Error: $e');
+    return [];
+  }
 }
+
+
 }
