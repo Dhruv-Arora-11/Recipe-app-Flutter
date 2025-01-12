@@ -83,7 +83,7 @@ Widget build(BuildContext context) {
                   ),
                   CustomTextField(
                     title: 'Password',
-                    hint: '',
+                    hint: 'Enter Password',
                     controller: passwordController,
                     obsecureText: true,
                     margin: EdgeInsets.symmetric(vertical: 4),

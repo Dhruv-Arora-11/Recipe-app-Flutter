@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
+import 'package:recipe_app/animations/leftTransition.dart';
+import 'package:recipe_app/animations/transition_to_anyDirection.dart';
 import 'package:rive/rive.dart';
 import 'first_page.dart';
 
@@ -21,11 +23,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void _navigateToFirstPage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const FirstPage()),
+      VerticalPageRoute(page: FirstPage(),direction: SlideDirection.fromBottom)
     );
   }
     void _backgroundLoading() async {
-    Timer(const Duration(seconds: 1), _navigateToFirstPage);
+    Timer(const Duration(seconds: 2), _navigateToFirstPage);
   }
 
   @override

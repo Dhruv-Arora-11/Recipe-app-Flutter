@@ -45,103 +45,105 @@ Widget build(BuildContext context) {
               decoration: BoxDecoration(
                 color: customColor,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Header
-                  Container(
-                    margin: EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      'Get Started',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'inter',
-                      ),
-                    ),
-                  ),
-                  CustomTextField(
-                    title: 'Email',
-                    hint: 'youremail@email.com',
-                    controller: emailController,
-                    margin: EdgeInsets.symmetric(vertical: 1),
-                    obsecureText: false,
-                    padding: EdgeInsets.all(10),
-                  ),
-                  CustomTextField(
-                    title: 'Full Name',
-                    hint: 'Your Full Name',
-                    margin: EdgeInsets.symmetric(vertical: 1),
-                    controller: nameController,
-                    obsecureText: false,
-                    padding: EdgeInsets.all(10),
-                  ),
-                  CustomTextField(
-                    title: 'Password',
-                    hint: 'Enter your Password',
-                    obsecureText: true,
-                    margin: EdgeInsets.symmetric(vertical: 1),
-                    controller: passwordController,
-                    padding: EdgeInsets.all(10),
-                  ),
-                  CustomTextField(
-                    title: 'Retype Password',
-                    hint: 'Retype the same password',
-                    obsecureText: true,
-                    margin: EdgeInsets.symmetric(vertical: 1),
-                    controller: confirmPasswordController,
-                    padding: EdgeInsets.all(10),
-                  ),
-                  // Register Button
-                  Container(
-                    margin: EdgeInsets.only(top: 16, bottom: 6),
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _handleRegister(context); // Call Firebase register
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Header
+                    Container(
+                      margin: EdgeInsets.only(bottom: 16),
                       child: Text(
-                        'Register',
+                        'Get Started',
                         style: TextStyle(
-                          color: customColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
                           fontFamily: 'inter',
                         ),
                       ),
                     ),
-                  ),
-                  // Google Sign-In Button with only the icon
-                  Container(
-                    margin: EdgeInsets.only(top: 16, bottom: 6),
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Add your Google sign-in handling logic here
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                    CustomTextField(
+                      title: 'Email',
+                      hint: 'youremail@email.com',
+                      controller: emailController,
+                      margin: EdgeInsets.symmetric(vertical: 1),
+                      obsecureText: false,
+                      padding: EdgeInsets.all(10),
+                    ),
+                    CustomTextField(
+                      title: 'Full Name',
+                      hint: 'Your Full Name',
+                      margin: EdgeInsets.symmetric(vertical: 1),
+                      controller: nameController,
+                      obsecureText: false,
+                      padding: EdgeInsets.all(10),
+                    ),
+                    CustomTextField(
+                      title: 'Password',
+                      hint: 'Enter your Password',
+                      obsecureText: true,
+                      margin: EdgeInsets.symmetric(vertical: 1),
+                      controller: passwordController,
+                      padding: EdgeInsets.all(10),
+                    ),
+                    CustomTextField(
+                      title: 'Retype Password',
+                      hint: 'Retype the same password',
+                      obsecureText: true,
+                      margin: EdgeInsets.symmetric(vertical: 1),
+                      controller: confirmPasswordController,
+                      padding: EdgeInsets.all(10),
+                    ),
+                    // Register Button
+                    Container(
+                      margin: EdgeInsets.only(top: 16, bottom: 6),
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _handleRegister(context); // Call Firebase register
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Colors.white,
                         ),
-                        backgroundColor: Colors.white,
-                      ),
-                      child: SvgPicture.asset(
-                        'assets/images/gLogo.svg', // Use the SVG logo
-                        height: 24,
-                        width: 24,
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            color: customColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'inter',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    // Google Sign-In Button with only the icon
+                    Container(
+                      margin: EdgeInsets.only(top: 16, bottom: 6),
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Add your Google sign-in handling logic here
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/images/gLogo.svg', // Use the SVG logo
+                          height: 24,
+                          width: 24,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -6,7 +6,7 @@ class VerticalPageRoute<T> extends PageRouteBuilder<T> {
 
   VerticalPageRoute({required this.page, required this.direction})
       : super(
-          transitionDuration: const Duration(milliseconds: 500),
+          transitionDuration: const Duration(milliseconds: 300),
           pageBuilder: (context, animation, secondaryAnimation) => page,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Determine the slide direction
