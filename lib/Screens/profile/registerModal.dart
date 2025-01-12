@@ -1,62 +1,50 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recipe_app/components/customTextFeild.dart';
 
-class LoginModal extends StatelessWidget {
+class RegisterModal extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   final Color customColor = Color(0xFF0B1520);
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  LoginModal({super.key});
+  RegisterModal({super.key});
 
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? account = await _googleSignIn.signIn();
-      if (account != null) {
-        final GoogleSignInAuthentication googleAuth = await account.authentication;
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
+  Future<void> _handleRegister(BuildContext context) async {
+    if (passwordController.text == confirmPasswordController.text) {
+      try {
+        final UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
         );
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        print('Google Sign-In Successful: ${account.email}');
-        // Navigate to another screen after successful login
+        print('Registration Successful: ${userCredential.user?.email}');
+        // Navigate to another screen after successful registration
+      } catch (error) {
+        print('Registration Failed: $error');
       }
-    } catch (error) {
-      print('Google Sign-In Failed: $error');
+    } else {
+      print("Passwords do not match.");
     }
   }
 
-  Future<void> _handleEmailLogin(BuildContext context) async {
-    try {
-      final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      print('Login Successful: ${userCredential.user?.email}');
-      // Navigate to another screen after successful login
-    } catch (error) {
-      print('Login Failed: $error');
-    }
-  }
-
-@override
+  @override
 Widget build(BuildContext context) {
   return SafeArea(
     child: Scaffold(
+      backgroundColor: customColor,
       body: Stack(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 1,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            decoration: BoxDecoration(
-              color: customColor,
-            ),
-            child: SingleChildScrollView(
+          Padding(
+            padding: const EdgeInsets.only(top: 22.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 1,
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              decoration: BoxDecoration(
+                color: customColor,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -64,7 +52,7 @@ Widget build(BuildContext context) {
                   Container(
                     margin: EdgeInsets.only(bottom: 16),
                     child: Text(
-                      'Welcome Back',
+                      'Get Started',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22,
@@ -77,26 +65,42 @@ Widget build(BuildContext context) {
                     title: 'Email',
                     hint: 'youremail@email.com',
                     controller: emailController,
-                    margin: EdgeInsets.symmetric(vertical: 4),
+                    margin: EdgeInsets.symmetric(vertical: 1),
                     obsecureText: false,
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(10),
+                  ),
+                  CustomTextField(
+                    title: 'Full Name',
+                    hint: 'Your Full Name',
+                    margin: EdgeInsets.symmetric(vertical: 1),
+                    controller: nameController,
+                    obsecureText: false,
+                    padding: EdgeInsets.all(10),
                   ),
                   CustomTextField(
                     title: 'Password',
-                    hint: '',
-                    controller: passwordController,
+                    hint: 'Enter your Password',
                     obsecureText: true,
-                    margin: EdgeInsets.symmetric(vertical: 4),
-                    padding: EdgeInsets.all(12),
+                    margin: EdgeInsets.symmetric(vertical: 1),
+                    controller: passwordController,
+                    padding: EdgeInsets.all(10),
                   ),
-                  // Login Button
+                  CustomTextField(
+                    title: 'Retype Password',
+                    hint: 'Retype the same password',
+                    obsecureText: true,
+                    margin: EdgeInsets.symmetric(vertical: 1),
+                    controller: confirmPasswordController,
+                    padding: EdgeInsets.all(10),
+                  ),
+                  // Register Button
                   Container(
                     margin: EdgeInsets.only(top: 16, bottom: 6),
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        _handleEmailLogin(context); // Call Firebase login
+                        _handleRegister(context); // Call Firebase register
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -105,7 +109,7 @@ Widget build(BuildContext context) {
                         backgroundColor: Colors.white,
                       ),
                       child: Text(
-                        'Log In',
+                        'Register',
                         style: TextStyle(
                           color: customColor,
                           fontSize: 16,
@@ -121,7 +125,9 @@ Widget build(BuildContext context) {
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () => _handleGoogleSignIn(context),
+                      onPressed: () {
+                        // Add your Google sign-in handling logic here
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -166,5 +172,4 @@ Widget build(BuildContext context) {
     ),
   );
 }
-
 }

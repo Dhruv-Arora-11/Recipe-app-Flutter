@@ -43,14 +43,26 @@ class CustomTextField extends StatelessWidget {
             decoration: BoxDecoration(color: customColor, borderRadius: BorderRadius.circular(10)),
             child: TextField(
               controller: controller,
-              style: TextStyle(fontSize: 14),
-              cursorColor: customColor,
+              style: TextStyle(fontSize: 14,color: Colors.white),
+              cursorColor: Colors.white,
               obscureText: obsecureText,
               decoration: InputDecoration(
+                fillColor: Colors.white,
                 hintText: hint,
                 hintStyle: TextStyle(fontSize: 14, color: Colors.grey[400]),
                 contentPadding: EdgeInsets.only(left: 16),
-                border: InputBorder.none,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.white10),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.white),
+                ),
               ),
             ),
           ),

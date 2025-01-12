@@ -13,24 +13,25 @@ class RecipeTemplate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 12.0),
       child: Container(
-        height: 170,
+        height: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: tempColor,
         ),
         child: Row(
           children: [
-            // Image Section
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                width: 150,
-                height: 150,
-                margin: const EdgeInsets.all(10),
-                color: Colors.white,
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
+            // Image Section with Circular Border
+            Container(
+              width: 130,
+              height: 130,
+              margin: const EdgeInsets.all(10),
+              child: ClipOval(
+                child: Container(
+                  color: Colors.white,
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

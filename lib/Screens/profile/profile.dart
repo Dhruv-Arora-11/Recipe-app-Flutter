@@ -1,10 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Screens/profile/alreadyLogin.dart';
-import 'package:recipe_app/Screens/profile/notLogin.dart';
+import 'package:recipe_app/Screens/profile/notLoginUI.dart';
 
 // ignore: must_be_immutable
 class profile extends StatelessWidget {
-  profile({super.key});
+
+  bool isLoginButtonPressed = false;
+
+  profile({  
+    super.key,
+    required this.isLoginButtonPressed,
+  });
+
+  
 
   bool isLogin = false;
   @override
@@ -12,7 +21,7 @@ class profile extends StatelessWidget {
     if(isLogin){
       return ProfilePage(subTime: "woi",email:"qpo" ,fullName:"wo" ,subType:"wo" ,);
     }else{
-      return RegisterModal();
+      return Notloginui();
     }
   }
 }

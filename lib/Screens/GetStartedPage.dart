@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'loadingScreen.dart';
+import 'package:recipe_app/Screens/first_page.dart';
+import 'package:recipe_app/Screens/loadingScreen.dart';
+import 'package:recipe_app/animations/leftTransition.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -53,16 +55,8 @@ class GetStartedPage extends StatelessWidget {
                           horizontal: 50, vertical: 15),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => const LoadingScreen(),
-                          transitionsBuilder: (_, animation, __, child) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: child,
-                            );
-                          },
-                        ),
+                      Navigator.of(context).pushReplacement(
+                        CustomPageRoute(page:LoadingScreen())
                       );
                     },
                     child: const Text(

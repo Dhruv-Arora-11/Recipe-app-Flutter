@@ -15,25 +15,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    _startBackgroundLoading();
-  }
-
-  void _startBackgroundLoading() {
-    final receivePort = ReceivePort();
-    Isolate.spawn(_backgroundLoading, receivePort.sendPort);
-
-    // Listen for the completion signal from the isolate
-    receivePort.listen((message) {
-      if (message == true) {
-        _navigateToFirstPage();
-      }
-    });
-  }
-
-  static void _backgroundLoading(SendPort sendPort) async {
-    // Simulate resource loading
-    await Future.delayed(const Duration(seconds: 5));
-    sendPort.send(true); // Notify completion
+    _backgroundLoading();
   }
 
   void _navigateToFirstPage() {
@@ -41,6 +23,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
       context,
       MaterialPageRoute(builder: (context) => const FirstPage()),
     );
+  }
+    void _backgroundLoading() async {
+    Timer(const Duration(seconds: 1), _navigateToFirstPage);
   }
 
   @override

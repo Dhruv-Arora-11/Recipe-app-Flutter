@@ -16,8 +16,9 @@ class _FirstPageState extends State<FirstPage> {
   final Color customColor = Color(0xFF0B1520);
 
   int _selectedIndex = 0;
+  bool isLoaded = false;
 
-  void _onNavBarTap(int index) {
+  void onNavBarTap(int index) {
     _selectedIndex = index;
     setState((){
     });
@@ -25,15 +26,15 @@ class _FirstPageState extends State<FirstPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: IndexedStack(
+      return SafeArea(
+        child: Scaffold(
+          body: IndexedStack(
           index: _selectedIndex,
           children: [
             HomePage(),
             SearchPage(),
             ChatPage(),
-            profile()
+            profile(isLoginButtonPressed: false),
           ],
         ),
       
@@ -44,15 +45,15 @@ class _FirstPageState extends State<FirstPage> {
           child: GNav(   
             haptic: true,
             backgroundColor: customColor,
-            iconSize: 19,
+            iconSize: 21,
             color: Colors.white,
             activeColor: Colors.orange,
             tabActiveBorder: Border.all(color: Colors.orange),
             tabBackgroundColor: Colors.grey.shade900,
-            gap: 10,
-            padding: EdgeInsets.all(10),
+            gap: 7,
+            padding: EdgeInsets.all(15),
             selectedIndex: _selectedIndex,
-            onTabChange: _onNavBarTap,
+            onTabChange: onNavBarTap,
             tabs: [
               GButton(
                 icon: Icons.home,
@@ -75,7 +76,5 @@ class _FirstPageState extends State<FirstPage> {
         ),
       ),
     );
-    
   }
-  
 }
