@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/animations/leftTransition.dart';
+import 'package:recipe_app/animations/transition_to_anyDirection.dart';
 import 'package:recipe_app/components/category_chip.dart';
 import 'package:recipe_app/components/recipe_template.dart';
 import 'package:recipe_app/mealDB%20api/category_listing.dart';
@@ -83,19 +84,13 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      // Fetch the recipe data
-      final meals = await RecipeApi().fetchRecipe(dishName, context);
-      final ingredients = RecipeApi.ingredients;
-
       // Push the new screen
       await Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => FullScreenRecipe(
-            recipeTitle: meals["strMeal"],
-            ingredients: ingredients,
-            steps: meals["strInstructions"].split('\n'),
-            videoURL: meals["strYoutube"],
+        VerticalPageRoute(
+          direction: SlideDirection.fromBottom,
+          page: FullScreenRecipe(
+            recipeTitle: dishName,
           ),
         ),
       );

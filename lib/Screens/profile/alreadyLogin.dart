@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/RazorPay/razorpay_integration.dart';
 import 'package:recipe_app/animations/transition_to_anyDirection.dart';
-import '../../RazorPay/integration.dart';
 
 class ProfilePage extends StatelessWidget {
   final String email;

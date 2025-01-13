@@ -1,46 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class FullScreenRecipe extends StatelessWidget {
-  final String recipeTitle;
-  final String videoURL; // YouTube video URL
-  final List<String> ingredients;
-  final List<String> steps;
-  final Color customColor = const Color(0xFF11151E);
-  final Color tempColor = const Color(0xFF171D2B);
+import '../mealDB api/fullRecipe.dart';
 
-  FullScreenRecipe({
+class FullScreenRecipe extends StatefulWidget {
+  final String recipeTitle;
+
+  const FullScreenRecipe({
     super.key,
     required this.recipeTitle,
-    required this.ingredients,
-    required this.steps,
-    required this.videoURL,
   });
 
   @override
-  Widget build(BuildContext context) {
-    // Extract the video ID from the URL
-    final videoId = YoutubePlayer.convertUrlToId(videoURL);
+  State<FullScreenRecipe> createState() => _FullScreenRecipeState();
+}
 
-    if (videoId == null) {
-      throw ArgumentError("Invalid YouTube URL: $videoURL");
+class _FullScreenRecipeState extends State<FullScreenRecipe> {
+  YoutubePlayerController? _controller; // Made nullable
+  bool _isDataFetched = false;
+  late Map<String, dynamic> meals;
+  late List<String> ingredients;
+  late String steps;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    try {
+      // Fetch data
+      meals = await RecipeApi().fetchRecipe(widget.recipeTitle, context);
+      ingredients = RecipeApi.ingredients;
+      steps = meals["strInstructions"] ?? "";
+
+      final videoId = YoutubePlayer.convertUrlToId(meals["strYoutube"]);
+      if (videoId != null) {
+        _controller = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            autoPlay: false,
+            mute: false,
+          ),
+        );
+      }
+
+      // Update state
+      setState(() {
+        _isDataFetched = true;
+      });
+    } catch (e) {
+      // Handle errors if any
+      setState(() {
+        _isDataFetched = false;
+      });
+      debugPrint("Error fetching data: $e");
     }
+  }
 
-    // Create the YouTube player controller
-    final YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: customColor,
+      backgroundColor: const Color(0xFF11151E),
       appBar: AppBar(
-        backgroundColor: customColor,
+        backgroundColor: const Color(0xFF11151E),
         title: Text(
-          recipeTitle,
+          widget.recipeTitle,
           style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -48,81 +80,124 @@ class FullScreenRecipe extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: _isDataFetched
+          ? SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
-
-              // YouTube Player
-              YoutubePlayer(
-                controller: _controller,
-                showVideoProgressIndicator: true,
-                aspectRatio: 16 / 9,
-              ),
-              const SizedBox(height: 16),
-
-              // Ingredients List
-              Text(
-                'Ingredients',
-                style: const TextStyle(
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+              // YouTube Player Section (if videoId exists)
+              if (_controller != null)
+                YoutubePlayer(
+                  controller: _controller!,
+                  showVideoProgressIndicator: true,
+                  aspectRatio: 16 / 9,
                 ),
-              ),
-              const SizedBox(height: 8),
-              if (ingredients.isNotEmpty)
-                ...ingredients.map(
-                      (ingredient) => Text(
-                    '- $ingredient',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              else
-                const Text("No ingredients available"),
 
-              const SizedBox(height: 16),
+              if (_controller != null) const SizedBox(height: 20),
 
-              // Steps List
-              Text(
-                'Steps :',
-                style: const TextStyle(
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+              // Ingredients Section
+              _buildSectionTitle('Ingredients'),
               const SizedBox(height: 8),
-              if (steps.isNotEmpty)
-                ...steps.asMap().entries.map((entry) {
-                  int idx = entry.key + 1;
-                  String step = entry.value;
-                  return Text(
-                    '$idx. $step',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  );
-                }).toList()
-              else
-                const Text("No steps available"),
+              _buildList(ingredients, 'No ingredients available'),
+
+              const SizedBox(height: 20),
+
+              // Steps Section
+              _buildSectionTitle('Steps'),
+              const SizedBox(height: 8),
+              _buildListWithIndex(steps.split('\n'), 'No steps available'),
             ],
           ),
         ),
+      )
+          : const Center(
+        child: CircularProgressIndicator(
+          color: Colors.redAccent,
+        ),
       ),
+    );
+  }
+
+  // Builds a section title
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: Colors.redAccent,
+        decoration: TextDecoration.underline,
+      ),
+    );
+  }
+
+  // Builds a list of items (e.g., ingredients or steps)
+  Widget _buildList(List<String> items, String emptyMessage) {
+    return items.isNotEmpty
+        ? Card(
+      color: const Color(0xFF171D2B),
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: items
+              .map(
+                (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                '- $item',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          )
+              .toList(),
+        ),
+      ),
+    )
+        : Text(
+      emptyMessage,
+      style: const TextStyle(color: Colors.grey, fontSize: 16),
+    );
+  }
+
+  // Builds a list of items with an index (for steps)
+  Widget _buildListWithIndex(List<String> items, String emptyMessage) {
+    return items.isNotEmpty
+        ? Card(
+      color: const Color(0xFF171D2B),
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: items.asMap().entries.map((entry) {
+            int idx = entry.key + 1;
+            String item = entry.value;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(
+                '$idx. $item',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    )
+        : Text(
+      emptyMessage,
+      style: const TextStyle(color: Colors.grey, fontSize: 16),
     );
   }
 }
