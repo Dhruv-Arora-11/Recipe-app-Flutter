@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        
+        Scanner entry = new Scanner(System.in);
+        
+        
+        int rows = entry.nextInt();
+        int cols = entry.nextInt();
+        int[][] nums = new int[rows][cols];
+        
+           
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+             nums[rows][cols] = entry.nextInt();
+            }
+         }
+    
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                System.out.println(nums[rows][cols]);
+            }
+        }
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        // int no_of_inputs = 0;
+        // int[][] nums = int[no_of_inputs][2];
+        for (int i = 0 ; i<nums.length ; i++){
+            if(nums[i][0] == 2){            // when we have to multiply
+                int k = nums[i][1];
+                int computed = 1;
+                int product_found = k;
+                while(k>=computed){          // while we have not computed all the products 
+                    computed++;
+                    product_found = nums[i][1]*product_found;
+                    i--;
+                }
+                ans.add(product_found);
+            }else{
+                continue;
+            }
+        }
+        System.out.println(ans);
+    }
+}

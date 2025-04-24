@@ -1,106 +1,170 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/mealDB%20api/first_letter.dart';
+import 'package:http/http.dart' as http;
+import 'package:recipe_app/components/fullScreenRecipe.dart';
+import 'package:recipe_app/components/recipe_template.dart';
+import 'package:recipe_app/components/searchBar/apiForSearch.dart';
+import 'dart:convert';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
 
 class SearchPage extends StatefulWidget {
-  static var user_message;
-
   const SearchPage({super.key});
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final Color backgroundColor = Color(0xFF11151E); 
-  // ignore:  unused_field, non_constant_identifier_names
-  static final TextEditingController user_message = TextEditingController();
-  final Color searchBarColor =Color(0xFF171D2B); 
-  final Color customColor = Color(0xFF11151E);
-  bool hasLetter = false;
-  List<String> Meals = [];
+  final TextEditingController _searchController = TextEditingController();
+  final SearchAPI _mealApi = SearchAPI();
+  List<Map<String, dynamic>> _meals = []; // Store full meal data
+  bool _hasSearched = false;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleSearch(String query) async {
+    if (query.trim().isEmpty) {
+      setState(() {
+        _meals = [];
+        _hasSearched = false;
+      });
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _hasSearched = true;
+    });
+
+    try {
+      List<Map<String, dynamic>> fetchedMeals;
+      if (query.length == 1) {
+        fetchedMeals = await _mealApi.fetchMealsByFirstLetter(query.trim());
+      } else {
+        fetchedMeals = await _mealApi.fetchMealsByName(query.trim());
+      }
+
+      setState(() {
+        _meals = fetchedMeals;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+      setState(() {
+        _meals = [];
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
-      
+      backgroundColor: Color(0xFF11151E),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10.0,left: 10),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                 Padding(
-                   padding: const EdgeInsets.only(left: 8.0),
-                   child: 
-                   Text(
-                    "What are you looking for ?",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 0.0,top:10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: searchBarColor,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: GestureDetector(
-                      child: TextField(
-                        onChanged: (value) async{
-                          if(value.trim().isEmpty){
-                            Meals = [];
-                          }else{
-                            if(!hasLetter){
-                              String letter = value.trim()[0];
-                              await Future.delayed(Duration(seconds: 2));
-                              List<String> Meals = await API_fetch(letter: letter).fetchData();
-                              for(int i = 0 ;i<Meals.length ; i++){
-                                print(Meals[i]);
-                              }
-                              hasLetter = true;
-                            }
-                            else{
-                              print("The API fetching is already completed");
-                            }
-                          }
-                        },
-                        decoration: InputDecoration(
-                          hintText: "Type something...",
-                          hintStyle: TextStyle(color: Colors.white54),
-                          prefixIcon: Icon(Icons.search, color: Colors.white,size: 30),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 15),
-                        ),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(
+                  "What are you looking for ?",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20),
-                // Placeholder for search results
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      "No results",
-                      style: TextStyle(
-                        color: Colors.white54,
-                        fontSize: 16,
-                      ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 0.0, top: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFF171D2B),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _handleSearch,
+                    decoration: InputDecoration(
+                      hintText: "Type something...",
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      prefixIcon: const Icon(Icons.search,
+                          color: Colors.white, size: 30),
+                      border: InputBorder.none,
+                      contentPadding:
+                          const EdgeInsets.symmetric(vertical: 15),
                     ),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: _buildSearchResults(),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
+  Widget _buildSearchResults() {
+    if (!_hasSearched) {
+      return const Center(
+        child: Text(
+          "Start typing to search for meals...",
+          style: TextStyle(color: Colors.white54, fontSize: 16),
+        ),
+      );
+    } else if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      );
+    } else if (_meals.isEmpty) {
+      return const Center(
+        child: Text(
+          "No results found.",
+          style: TextStyle(color: Colors.white54, fontSize: 16),
+        ),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: _meals.length,
+        itemBuilder: (context, index) {
+          final meal = _meals[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FullScreenRecipe(recipeTitle: meal['strMeal'] ?? ''),
+                ),
+              );
+            },
+            child: RecipeTemplate(
+              imageUrl: meal['strMealThumb'] ??
+                  '', // Provide a default value if null
+              dishName: meal['strMeal'] ?? '',
+            ),
+          );
+        },
+      );
+    }
+  }
 }
+

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:recipe_app/components/customTextFeild.dart';
+import 'package:recipe_app/Screens/profile/login_model.dart';
 
 class RegisterModal extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -117,6 +118,38 @@ Widget build(BuildContext context) {
                             fontWeight: FontWeight.w600,
                             fontFamily: 'inter',
                           ),
+                        ),
+                      ),
+                    ),
+                    // Login text button
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginModal()),
+                        );
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Already have an account? ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'inter',
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Login',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                // fontFamily: 'inter',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

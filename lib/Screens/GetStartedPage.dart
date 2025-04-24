@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Screens/first_page.dart';
 import 'package:recipe_app/Screens/loadingScreen.dart';
+import 'package:recipe_app/Screens/profile/login_model.dart';
 import 'package:recipe_app/animations/leftTransition.dart';
 
 class GetStartedPage extends StatelessWidget {
@@ -8,6 +9,10 @@ class GetStartedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen size
+    final screenSize = MediaQuery.of(context).size;
+    final isLargeScreen = screenSize.width > 600;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -22,49 +27,54 @@ class GetStartedPage extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(screenSize.width * 0.05), // Responsive padding
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
+                  Text(
                     "Find the perfect\nrecipes everyday",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: isLargeScreen ? 40 : 30, // Larger text for larger screens
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
+                  SizedBox(height: screenSize.height * 0.02), // Responsive spacing
+                  Text(
                     "More than 20 thousand recipes of\nhealthy and healthy food",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 242, 231, 231),
+                      fontSize: isLargeScreen ? 24 : 20, // Adjusted for screen size
+                      color: const Color.fromARGB(255, 242, 231, 231),
                     ),
                   ),
-                  const SizedBox(height: 40),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                  SizedBox(height: screenSize.height * 0.05), // Responsive spacing
+                  SizedBox(
+                    width: isLargeScreen ? screenSize.width * 0.4 : screenSize.width * 0.7, // Responsive button width
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.yellow,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.width * 0.08,
+                          vertical: screenSize.height * 0.02,
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 50, vertical: 15),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        CustomPageRoute(page:LoadingScreen())
-                      );
-                    },
-                    child: const Text(
-                      "Get Started",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          CustomPageRoute(page: LoginModal())
+                        );
+                      },
+                      child: Text(
+                        "Get Started",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: isLargeScreen ? 22 : 18, // Responsive font size
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

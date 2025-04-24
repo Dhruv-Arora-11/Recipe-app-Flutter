@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:recipe_app/Screens/loadingScreen.dart';
+import 'package:recipe_app/Screens/profile/notLoginUI.dart';
+import 'package:recipe_app/animations/leftTransition.dart';
 import 'package:recipe_app/components/customTextFeild.dart';
 
 class LoginModal extends StatelessWidget {
@@ -13,22 +16,33 @@ class LoginModal extends StatelessWidget {
   LoginModal({super.key});
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? account = await _googleSignIn.signIn();
-      if (account != null) {
-        final GoogleSignInAuthentication googleAuth = await account.authentication;
-        final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        print('Google Sign-In Successful: ${account.email}');
-        // Navigate to another screen after successful login
-      }
-    } catch (error) {
-      print('Google Sign-In Failed: $error');
+  try {
+    final GoogleSignInAccount? account = await _googleSignIn.signIn();
+    if (account != null) {
+      final GoogleSignInAuthentication googleAuth = await account.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      print('Google Sign-In Successful: ${account.email}');
+      
+      // ✅ Navigate after successful login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoadingScreen()), // Replace with your screen
+      );
     }
+  } catch (error) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoadingScreen()), // Replace with your screen
+      );
+    print("the error is there");
+    print('Google Sign-In Failed: $error');
   }
+}
+
 
   Future<void> _handleEmailLogin(BuildContext context) async {
     try {
@@ -113,6 +127,40 @@ Widget build(BuildContext context) {
                           fontFamily: 'inter',
                         ),
                       ),
+                    ),
+                  ),
+                  // Register Text Button
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account? ",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Notloginui()));
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: Size(0, 0),
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   // Google Sign-In Button with only the icon

@@ -71,7 +71,7 @@ class Notloginui extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "Log In",
+                              "Login",
                               style: TextStyle(
                                 color: customColor,
                                 fontSize: 16,
@@ -96,13 +96,13 @@ class Notloginui extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "Register",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
                           ),
                         ),
                       ],
